@@ -11,7 +11,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+from langchain.vectorstores import FAISS
 
 ## Importing libraries to implement chat history.
 from langchain_community.chat_message_histories import ChatMessageHistory
@@ -60,7 +60,7 @@ if uploaded_files:
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=200)
     final_docs = text_splitter.split_documents(documents)
 
-    vectorstore = Chroma.from_documents(final_docs, embeddings)
+    vectorstore = FAISS.from_documents(final_docs, embeddings)
     retriever = vectorstore.as_retriever()
 
     ## contextualize_q_system_prompt is an instruction given to the llm model, 
